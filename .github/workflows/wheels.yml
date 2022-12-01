@@ -1,0 +1,35 @@
+name: Build Wheels
+
+on: [push, pull_request, workflow_dispatch]
+
+concurrency:
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build_wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, windows-2019, win_amd64, macOS-11, macosx_*]
+    python: ["cp311"]
+    steps:
+      - name: Checkout aoc library
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+        # Used to host cibuildwheel
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install cibuildwheel
+        run: python -m pip install cibuildwheel
+      - name: Build wheels
+        run: python -m cibuildwheel --output-dir wheelhouse
+      - uses: actions/upload-artifact@v3
+        with:
+          path: ./wheelhouse/*.whl
