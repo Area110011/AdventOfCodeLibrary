@@ -1,14 +1,17 @@
-from setuptools import find_packages, setup
+import setuptools
 
-setup(
+
+setuptools.setup(
     name='aoc-library',
-    packages=find_packages(include=['aoc']),
     version='0.1.0',
-    description='',
+    description='Advent of Code Library',
     author='Liborsaf',
-    license='MIT',
+    author_email='liborsaf@wetian.eu',
+    url='https://github.com/Liborsaf/AdventOfCodeLibrary/',
+    packages=setuptools.find_packages(),
     install_requires=[],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
     test_suite='tests',
+    python_requires='>=3.11'
 )
