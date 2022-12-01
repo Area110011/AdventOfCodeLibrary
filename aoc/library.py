@@ -24,28 +24,34 @@ class AdventOfCodeTask(ABC):
 
 
 class AdventOfCode:
-    def __init__(self, year: int, main_file: str):
-        self.config = AdventOfCodeConfig(year)
-        self.main_file = main_file
+    registered_tasks = {}
 
-    def enable_auto_input_fetch(self, session: str, cache: bool = False):
+    def __init__(self, year: int):
+        self.config = AdventOfCodeConfig(year)
+
+    def enable_auto_input_fetch(self, session: str, cache: bool = False, cache_directory: str = None):
         self.config.session = session
         self.config.auto_fetch_input = True
-        self.config.cache_input = cache
 
         if cache:
-            self.config.cache_directory = path.join(path.dirname(self.main_file), "cache")
+            self.config.cache_directory = cache_directory
+            self.config.cache_input = cache
 
             if not path.exists(self.config.cache_directory):
                 mkdir(self.config.cache_directory)
 
     def register_task(self, day: int, task: Type[AdventOfCodeTask]):
-        pass
+        self.registered_tasks[day] = task
 
     def execute(self, day: int):
         input = self.load_input(day)
 
+
+
     def execute_all(self):
+        pass
+
+    def execute_last(self):
         pass
 
     def load_input(self, day: int):
