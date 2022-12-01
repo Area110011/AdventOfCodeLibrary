@@ -1,0 +1,12 @@
+# PyCharm
+.idea/
+
+# PyTest
+.pytest_cache
+
+# Other
+aoc_library.egg-info
+
+# Build
+build/
+dist/
