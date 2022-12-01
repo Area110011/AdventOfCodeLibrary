@@ -6,6 +6,8 @@ import requests
 
 
 class AdventOfCodeConfig:
+    debug = False
+
     auto_fetch_input = False
     cache_input = False
 
@@ -18,6 +20,9 @@ class AdventOfCodeConfig:
 
 
 class AdventOfCodeTask(ABC):
+    def __init__(self, input: str):
+        self.input = input
+
     @abstractmethod
     def run(self):
         pass
@@ -45,8 +50,9 @@ class AdventOfCode:
 
     def execute(self, day: int):
         input = self.load_input(day)
+        task = self.registered_tasks[day](input)
 
-
+        task.run()
 
     def execute_all(self):
         pass
@@ -65,7 +71,8 @@ class AdventOfCode:
                 with open(cache_file, "r") as file:
                     input = file.read()
 
-                print(f"input {day} loaded")
+                if self.config.debug:
+                    print(f"input {day} loaded")
 
         if not input:
             input = self.fetch_input(day)
@@ -74,7 +81,8 @@ class AdventOfCode:
                 with open(cache_file, "w") as file:
                     file.write(input)
 
-                print(f"input {day} cached")
+                if self.config.debug:
+                    print(f"input {day} cached")
 
         return input
 
@@ -86,6 +94,7 @@ class AdventOfCode:
 
             return None
 
-        print(f"input {day} fetched")
+        if self.config.debug:
+            print(f"input {day} fetched")
 
         return response.text
