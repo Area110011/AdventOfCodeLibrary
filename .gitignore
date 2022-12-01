@@ -6,6 +6,7 @@
 
 # Other
 aoc_library.egg-info
+.eggs/
 
 # Build
 build/

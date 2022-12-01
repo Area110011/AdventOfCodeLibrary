@@ -29,7 +29,7 @@ class AdventOfCode:
     def __init__(self, year: int):
         self.config = AdventOfCodeConfig(year)
 
-    def enable_auto_input_fetch(self, session: str, cache: bool = False, cache_directory: str = None):
+    def enable_auto_input_fetch(self, session: str, cache: bool = False, cache_directory: str = "/cache"):
         self.config.session = session
         self.config.auto_fetch_input = True
 
