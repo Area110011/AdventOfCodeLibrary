@@ -1,7 +1,21 @@
 from os import path, mkdir
-from typing import Optional, Type, List
+from typing import Optional, Type
 
 import requests
+
+from aoc import AdventOfCodeEvent, AdventOfCodeTask
+
+
+class AdventOfCodeConfig:
+    debug = False
+    testing = False
+
+    auto_fetch_input = False
+    cache_input = False
+
+    session: Optional[str] = None
+
+    cache_directory: Optional[str] = None
 
 
 class AdventOfCode:
@@ -28,7 +42,7 @@ class AdventOfCode:
     def add_year(self, year: int) -> AdventOfCodeEvent:
         self.last_year = year
 
-        event = AdventOfCodeEvent()
+        event = AdventOfCodeEvent(self)
         self.events[year] = event
 
         return event

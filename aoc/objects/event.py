@@ -1,5 +1,7 @@
 from typing import Type
 
+from aoc import AdventOfCode, AdventOfCodeTask
+
 
 class AdventOfCodeEvent:
     registered_tasks = {}
@@ -12,7 +14,7 @@ class AdventOfCodeEvent:
         self.registered_tasks[day] = task
 
     def execute(self, day: int):
-        task_input = self.load_input(day)
+        task_input = self.instance.load_input(day)
         task = self.registered_tasks[day](task_input)
 
         task.run()
