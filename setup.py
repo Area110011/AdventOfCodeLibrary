@@ -5,7 +5,6 @@ setuptools.setup(
     name='aoc-library',
     version='0.1.1',
     description='Advent of Code Library',
-    keyword='aoc',
     author='Liborsaf, Thr0nSK',
     author_email='liborsaf@wetian.eu',
     license='GPL-v3',

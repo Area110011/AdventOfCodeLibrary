@@ -11,3 +11,6 @@ aoc_library.egg-info
 # Build
 build/
 dist/
+
+# Environment
+venv/
