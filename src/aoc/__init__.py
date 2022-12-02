@@ -7,6 +7,7 @@ import requests
 
 class AdventOfCodeConfig:
     debug = False
+    testing = False
 
     auto_fetch_input = False
     cache_input = False
@@ -55,12 +56,16 @@ class AdventOfCode:
         task.run()
 
     def execute_all(self):
-        pass
+        for day in self.registered_tasks.keys():
+            self.execute(day)
 
     def execute_last(self):
         pass
 
-    def load_input(self, day: int):
+    def load_input(self, day: int) -> str:
+        if self.config.testing:
+            return "Dummy"
+
         input = None
         cache_file = None
 
