@@ -21,8 +21,8 @@ class AdventOfCodeConfig:
 
 
 class AdventOfCodeTask(ABC):
-    def __init__(self, input: str):
-        self.input = input
+    def __init__(self, task_input: str):
+        self.task_input = task_input
 
     @abstractmethod
     def run(self):
@@ -50,8 +50,8 @@ class AdventOfCode:
         self.registered_tasks[day] = task
 
     def execute(self, day: int):
-        input = self.load_input(day)
-        task = self.registered_tasks[day](input)
+        task_input = self.load_input(day)
+        task = self.registered_tasks[day](task_input)
 
         task.run()
 
@@ -60,13 +60,15 @@ class AdventOfCode:
             self.execute(day)
 
     def execute_last(self):
-        pass
+        last_day = list(self.registered_tasks.keys())[-1]
 
-    def load_input(self, day: int) -> str:
+        self.execute(last_day)
+
+    def load_input(self, day: int) -> Optional[str]:
         if self.config.testing:
             return "Dummy"
 
-        input = None
+        task_input = None
         cache_file = None
 
         if self.config.cache_input:
@@ -74,22 +76,16 @@ class AdventOfCode:
 
             if path.exists(cache_file):
                 with open(cache_file, "r") as file:
-                    input = file.read()
+                    task_input = file.read()
 
-                if self.config.debug:
-                    print(f"input {day} loaded")
-
-        if not input:
-            input = self.fetch_input(day)
+        if not task_input:
+            task_input = self.fetch_input(day)
 
             if self.config.cache_input:
                 with open(cache_file, "w") as file:
-                    file.write(input)
+                    file.write(task_input)
 
-                if self.config.debug:
-                    print(f"input {day} cached")
-
-        return input
+        return task_input
 
     def fetch_input(self, day: int) -> Optional[str]:
         response = requests.get(f"https://adventofcode.com/{self.config.year}/day/{day}/input", cookies={'session': self.config.session})
@@ -98,8 +94,5 @@ class AdventOfCode:
             print(f"Failed to fetch input, error: {response.text}")
 
             return None
-
-        if self.config.debug:
-            print(f"input {day} fetched")
 
         return response.text

@@ -56,12 +56,20 @@ def test_aoc():
     instance.register_task(4, LastTestTask)
 
     instance.execute_last()
-    # assert last_task_executed, "Failed to execute last test task!"
+    assert last_task_executed, "Failed to execute last test task!"
 
     global executed_tasks
-    assert executed_tasks == 3, "Wrong amount of tasks has been executed!"  # Modify to 4 when execute_last will work
+    assert executed_tasks == 4, "Wrong amount of tasks has been executed!"
 
     executed_tasks = 0
 
     instance.execute_all()
     assert executed_tasks == 4, "Wrong amount of tasks has been executed!"
+
+
+def main():
+    test_aoc()
+
+
+if __name__ == '__main__':
+    main()

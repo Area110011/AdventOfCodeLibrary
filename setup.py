@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name='aoc-library',
-    version='0.1.1',
+    version='0.1.2',
     description='Advent of Code Library',
     author='Liborsaf, Thr0nSK',
     author_email='liborsaf@wetian.eu',
