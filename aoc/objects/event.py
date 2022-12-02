@@ -1,6 +1,9 @@
-from typing import Type
+from __future__ import annotations
 
-from aoc import AdventOfCode, AdventOfCodeTask
+from typing import Type, TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from aoc import AdventOfCode, AdventOfCodeTask
 
 
 class AdventOfCodeEvent:

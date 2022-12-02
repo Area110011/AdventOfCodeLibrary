@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 from os import path, mkdir
-from typing import Optional, Type
+from typing import Optional, Type, TYPE_CHECKING
 
 import requests
 
-from aoc import AdventOfCodeEvent, AdventOfCodeTask
+if TYPE_CHECKING:
+    from aoc import AdventOfCodeEvent, AdventOfCodeTask
 
 
 class AdventOfCodeConfig:
@@ -19,7 +22,7 @@ class AdventOfCodeConfig:
 
 
 class AdventOfCode:
-    events: {}
+    events = {}
     last_year = 0
 
     def __init__(self, year: Optional[int] = None):
@@ -42,6 +45,7 @@ class AdventOfCode:
     def add_year(self, year: int) -> AdventOfCodeEvent:
         self.last_year = year
 
+        from aoc import AdventOfCodeEvent
         event = AdventOfCodeEvent(self)
         self.events[year] = event
 
