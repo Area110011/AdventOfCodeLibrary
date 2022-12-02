@@ -46,7 +46,7 @@ class AdventOfCode:
         self.last_year = year
 
         from aoc import AdventOfCodeEvent
-        event = AdventOfCodeEvent(self)
+        event = AdventOfCodeEvent(self, year)
         self.events[year] = event
 
         return event

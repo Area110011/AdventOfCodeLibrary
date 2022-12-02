@@ -9,8 +9,8 @@ if TYPE_CHECKING:
 class AdventOfCodeEvent:
     registered_tasks = {}
 
-    def __init__(self, instance: AdventOfCode):
-        # self.year = year
+    def __init__(self, instance: AdventOfCode, year: int):
+        self.year = year
         self.instance = instance
 
     def register_task(self, day: int, task: Type[AdventOfCodeTask]):
@@ -18,8 +18,9 @@ class AdventOfCodeEvent:
 
     def execute(self, day: int):
         task_input = self.instance.load_input(day)
-        task = self.registered_tasks[day](task_input)
+        task = self.registered_tasks[day]()
 
+        task.fill(day, self.year, task_input)
         task.run()
 
     def execute_all(self):
