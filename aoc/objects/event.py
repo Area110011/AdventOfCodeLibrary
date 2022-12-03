@@ -7,16 +7,19 @@ if TYPE_CHECKING:
 
 
 class AdventOfCodeEvent:
-    registered_tasks = {}
-
     def __init__(self, instance: AdventOfCode, year: int):
         self.year = year
         self.instance = instance
+
+        self.registered_tasks = {}
 
     def register_task(self, day: int, task: Type[AdventOfCodeTask]):
         self.registered_tasks[day] = task
 
     def execute(self, day: int):
+        if self.instance.config.debug:
+            print(f"Executing day {day} - year: {self.year}")
+
         task_input = self.instance.load_input(day)
         task = self.registered_tasks[day]()
 
@@ -28,6 +31,8 @@ class AdventOfCodeEvent:
             self.execute(day)
 
     def execute_last(self):
+        assert self.registered_tasks, f"No tasks added for this event! ({self.year})"
+
         last_day = list(self.registered_tasks.keys())[-1]
 
         self.execute(last_day)

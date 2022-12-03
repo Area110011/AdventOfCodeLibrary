@@ -10,26 +10,31 @@ if TYPE_CHECKING:
 
 
 class AdventOfCodeConfig:
-    debug = False
-    testing = False
+    def __init__(self):
+        self.debug = False
+        self.testing = False
 
-    auto_fetch_input = False
-    cache_input = False
+        self.auto_fetch_input = False
+        self.cache_input = False
 
-    session: Optional[str] = None
+        self.session: Optional[str] = None
 
-    cache_directory: Optional[str] = None
+        self.cache_directory: Optional[str] = None
 
 
 class AdventOfCode:
-    events = {}
-    last_year = 0
-
     def __init__(self, year: Optional[int] = None):
         self.config = AdventOfCodeConfig()
 
+        self.events = {}
+        self.last_year = 0
+        self.manual_input: Optional[str] = None
+
         if year:
             self.add_year(year)
+
+    def enable_debug(self):
+        self.config.debug = True
 
     def enable_auto_input_fetch(self, session: str, cache: bool = False, cache_directory: str = "/cache"):
         self.config.session = session
@@ -70,6 +75,9 @@ class AdventOfCode:
         if self.config.testing:
             return "Dummy"
 
+        if self.manual_input:
+            return self.manual_input
+
         if not year:
             year = self.last_year
 
@@ -93,10 +101,20 @@ class AdventOfCode:
         return task_input
 
     def fetch_input(self, day: int, year: Optional[int] = None) -> Optional[str]:
+        # if not self.config.auto_fetch_input:
+        #    return None
+
+        assert self.config.auto_fetch_input, "Automatic fetching of input is disabled, enable it using 'enable_auto_input_fetch' or set manually input by 'set_input'!"
+
         if not year:
             year = self.last_year
 
-        response = requests.get(f"https://adventofcode.com/{year}/day/{day}/input", cookies={'session': self.config.session})
+        url = f"https://adventofcode.com/{year}/day/{day}/input"
+
+        if self.config.debug:
+            print(f"Fetching input from {url}")
+
+        response = requests.get(url, cookies={'session': self.config.session})
 
         if response.status_code != 200:
             print(f"Failed to fetch input, error: {response.text}")
@@ -110,3 +128,6 @@ class AdventOfCode:
             year = self.last_year
 
         return self.events[year]
+
+    def set_input(self, manual_input: str):
+        self.manual_input = manual_input
