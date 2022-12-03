@@ -20,7 +20,7 @@ class AdventOfCodeEvent:
         if self.instance.config.debug:
             print(f"Executing day {day} - year: {self.year}")
 
-        task_input = self.instance.load_input(day)
+        task_input = self.instance.load_input(day, self.year)
         task = self.registered_tasks[day]()
 
         task.fill(day, self.year, task_input)
