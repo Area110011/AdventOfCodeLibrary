@@ -7,7 +7,7 @@ with open("README.md", "r") as file:
 
 setuptools.setup(
     name='aoc-library',
-    version='0.1.3',
+    version='0.1.3.1',
     description='Advent of Code Library',
     long_description=long_description,
     long_description_content_type='text/markdown',
