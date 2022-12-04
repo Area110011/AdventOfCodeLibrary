@@ -1,7 +1,17 @@
-from aoc import AdventOfCode, AdventOfCodeTask
+from aoc import AdventOfCode, AdventOfCodeTask, AdventOfCodeTaskVariant
+
+
+class ExampleTaskVariant(AdventOfCodeTaskVariant):
+    def run(self):
+        # This method is called on execute
+        pass
 
 
 class ExampleTask(AdventOfCodeTask):
+    # Registering variants
+    def __init__(self):  # (optional)
+        self.add_variant(0, ExampleTaskVariant)  # This will add variant to index 0
+
     def run(self):
         # This method is called on execute
         pass
@@ -38,13 +48,13 @@ def main():
 
     # Execution
     instance.execute(1)  # This will execute first day of last event (in our case 2018 event)
-    instance.execute(1, 2015)  # This will execute first day of 2015 event
+    instance.execute(1, year=2015)  # This will execute first day of 2015 event
 
     instance.execute_last()  # This will execute last day (1) of last event (2018)
-    instance.execute(2015)  # This will execute last day of 2015 event
+    instance.execute_last(year=2015)  # This will execute last day of 2015 event
 
     instance.execute_all()  # This will execute all days one by one in last event (2018)
-    instance.execute_all(2015)  # This will execute all days one by one in 2015 event
+    instance.execute_all(year=2015)  # This will execute all days one by one in 2015 event
 
     #
     # Shared usage
@@ -54,6 +64,23 @@ def main():
     instance.enable_auto_input_fetch("<session_token>")  # We can enable auto fetching input, session token can be obtained from browser cookies
     instance.enable_auto_input_fetch("<session_token>", True)  # Also we can enable caching for these requests, it will download input to cache folder and use it on next run
     instance.enable_auto_input_fetch("<session_token>", True, "/temp")  # Cache directory can be changed by third parameter, '/' means working folder
+
+    # Variants
+    instance.execute(1, variant=0)
+    instance.execute(1, year=2015, variant=0)
+
+    instance.execute_last(variant=0)
+    instance.execute_last(year=2015, variant=0)
+
+    instance.execute_all(variant=0)
+    instance.execute_last(year=2015, variant=0)
+
+    # Variants using events
+    event.execute(1, variant=0)
+
+    event.execute_last(variant=0)
+
+    event.execute_all(variant=0)
 
 
 if __name__ == '__main__':
