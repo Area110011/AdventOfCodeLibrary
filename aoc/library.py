@@ -2,8 +2,11 @@ from __future__ import annotations
 
 from os import path, mkdir
 from typing import Optional, Type, TYPE_CHECKING
+from typing_extensions import Unpack
 
 import requests
+
+from .objects.helper import LibraryExecuteArgs
 
 if TYPE_CHECKING:
     from aoc import AdventOfCodeEvent, AdventOfCodeTask
@@ -59,17 +62,17 @@ class AdventOfCode:
     def register_task(self, day: int, task: Type[AdventOfCodeTask]):
         self.events[self.last_year].register_task(day, task)
 
-    def execute(self, day: int, year: Optional[int] = None):
-        event = self.get_event(year)
-        event.execute(day)
+    def execute(self, day: int, **kwargs: Unpack[LibraryExecuteArgs]):
+        event = self.get_event(kwargs.get('year'))
+        event.execute(day, **kwargs)
 
-    def execute_all(self, year: Optional[int] = None):
-        event = self.get_event(year)
-        event.execute_all()
+    def execute_all(self, **kwargs: Unpack[LibraryExecuteArgs]):
+        event = self.get_event(kwargs.get('year'))
+        event.execute_all(**kwargs)
 
-    def execute_last(self, year: Optional[int] = None):
-        event = self.get_event(year)
-        event.execute_last()
+    def execute_last(self, **kwargs: Unpack[LibraryExecuteArgs]):
+        event = self.get_event(kwargs.get('year'))
+        event.execute_last(**kwargs)
 
     def load_input(self, day: int, year: Optional[int] = None) -> Optional[str]:
         if self.config.testing:
@@ -123,9 +126,11 @@ class AdventOfCode:
 
         return response.text
 
-    def get_event(self, year: Optional[int] = None):
+    def get_event(self, year: Optional[int] = None) -> AdventOfCodeEvent:
         if not year:
             year = self.last_year
+
+        assert year in self.events, f"No event for year {year} is created!"
 
         return self.events[year]
 

@@ -18,7 +18,7 @@ setuptools.setup(
     classifiers=[],
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=['requests'],
+    install_requires=['requests', 'typing-extensions'],
     setup_requires=['pytest-runner'],
     tests_require=['pytest'],
     test_suite='tests',

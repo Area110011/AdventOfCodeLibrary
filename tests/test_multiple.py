@@ -39,7 +39,7 @@ def execute_year(instance: AdventOfCode, year: int):
 
     for i in range(1, 4):
         current_day = i
-        instance.execute(i, year)
+        instance.execute(i, year=year)
 
     global executed_tasks
     assert executed_tasks == 3, "Wrong amount of tasks has been executed!"
